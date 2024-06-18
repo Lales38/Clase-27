@@ -23,7 +23,7 @@ app.get("/users", async (req, res) => {
 })
 
 //get a specific user by id
-app.get('/users:id', async (req, res) => {
+app.get("/users/:id", async (req, res) => {
   try {
     const id = req.query.id
     const connection = await pool.getConnection()
