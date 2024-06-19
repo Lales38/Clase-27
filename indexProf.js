@@ -12,7 +12,7 @@ app.get('/users', async (req, res) => {
   try {
     const rol = req.query.rol
     const connection = await pool.getConnection()
-    const [rows] = await connection.query('SELECT * FROM usuario WHERE rol = ?', [rol])
+    const [rows] = await connection.query('SELECT * FROM usuarios WHERE rol = ?', [rol])
     console.log('ROWS--> ', rows)
     connection.release()
     
@@ -32,10 +32,10 @@ app.get('/users', async (req, res) => {
 // Leer un usuario
 app.get('/users/:id', async (req, res) => {
   try {
-    const id = req.query.id
+    const id = req.params.id
     const connection = await pool.getConnection()
     const [rows] = await connection.query(
-      'SELECT * FROM usuario WHERE id = ?',
+      'SELECT * FROM usuarios WHERE id = ?',
       [id]
     )
     connection.release()
@@ -118,4 +118,4 @@ app.get('/users/borrar/:id', async (req, res) => {
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000')
-})  
+})

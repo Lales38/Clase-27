@@ -10,11 +10,12 @@ app.use(express.urlencoded({ extended: false }));
 
 //get all users
 app.get("/users", async (req, res) => {
+  console.log('Estoy en todos los usuarios')
   try {
     const rol = req.query.rol;
     const connection = await pool.getConnection();
     const [rows] = await connection.query(
-      "SELECT * FROM usuario WHERE rol = ?",
+      "SELECT * FROM usuario",
       [rol]
     );
     console.log("ROWS--> ", rows);
@@ -27,7 +28,9 @@ app.get("/users", async (req, res) => {
 });
 
 //get a specific user by id
-app.get("/users/", async (req, res) => {
+app.get("/users/:id", async (req, res) => {
+  console.log('Estoy en by ID')
+  
   try {
     const id = req.query.id
     const connection = await pool.getConnection()
@@ -49,6 +52,8 @@ app.get("/users/", async (req, res) => {
 
 //create new user
 app.post("/users", async (req, res) => {
+  console.log('Estoy en crear usuario')
+  
   try {
     console.log("req.body ---->: ", req.body);
     //const { nombre, email, password, rol } = req.body;
@@ -68,11 +73,13 @@ app.post("/users", async (req, res) => {
 
 //update a specific user by id
 app.post("/users/:id", async (req, res) => {
+  console.log('Estoy en UpDate')
+  
   try {
     const id = req.params.id;
     const connection = await pool.getConnection();
     const [result] = await connection.query(
-      "UPDATE usuario SET ? WHERE ID = ?",
+      "UPDATE usuario SET ? WHERE id = ?",
       [req.body, id]
     );
     connection.release();
@@ -89,6 +96,8 @@ app.post("/users/:id", async (req, res) => {
 
 //delete a specific user by id
 app.get("/users/borrar/:id", async (req, res) => {
+  console.log('Estoy en delete')
+  
   try {
     const id = req.params.id;
     const connection = await pool.getConnection();

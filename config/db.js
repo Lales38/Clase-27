@@ -4,7 +4,7 @@ const pool = createPool({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "clase_28",
+  database: "demo_cac",
   connectionLimit: 5, //Ajustar la cantidad de conexiones simultaneas
   waitForConnections: true,
   queueLimit: 0,
