@@ -11,8 +11,12 @@ app.use(express.urlencoded({ extended: false }));
 //get all users
 app.get("/users", async (req, res) => {
   try {
+    const rol = req.query.rol;
     const connection = await pool.getConnection();
-    const [rows] = await connection.query("SELECT * from usuario");
+    const [rows] = await connection.query(
+      "SELECT * FROM usuario WHERE rol = ?",
+      [rol]
+    );
     console.log("ROWS--> ", rows);
     connection.release();
     res.json(rows);
@@ -20,28 +24,28 @@ app.get("/users", async (req, res) => {
     console.error("Error executing query: ", err);
     res.status(500);
   }
-})
+});
 
 //get a specific user by id
-app.get("/users/:id", async (req, res) => {
+app.get("/users/", async (req, res) => {
   try {
     const id = req.query.id
     const connection = await pool.getConnection()
     const [rows] = await connection.query(
-      'SELECT * from usuario WHERE id = ?',[id]
+      "SELECT * FROM usuario WHERE id = ?",
+      [id]
     )
-    console.log(req)
     connection.release()
     if (rows.length === 0) {
       res.status(404).json({ message: "usuario no encontrado" })
     } else {
       res.json(rows)
-    } 
+    }
   } catch (err) {
     console.error("Error executing query: ", err)
     res.status(500)
   }
-})
+});
 
 //create new user
 app.post("/users", async (req, res) => {
@@ -89,14 +93,14 @@ app.get("/users/borrar/:id", async (req, res) => {
     const id = req.params.id;
     const connection = await pool.getConnection();
     const [result] = await connection.query(
-      'DELETE from usuario WHERE id = ?',
+      "DELETE from usuario WHERE id = ?",
       [id]
     );
     connection.release();
     if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'usuario no encontrado' });
+      res.status(404).json({ message: "usuario no encontrado" });
     } else {
-      res.json({ message: 'Usuario borrado con éxito' });
+      res.json({ message: "Usuario borrado con éxito" });
     }
   } catch (err) {
     console.error("Error executing query: ", err);

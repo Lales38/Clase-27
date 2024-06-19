@@ -12,7 +12,7 @@ app.get('/users', async (req, res) => {
   try {
     const rol = req.query.rol
     const connection = await pool.getConnection()
-    const [rows] = await connection.query('SELECT * FROM usuarios WHERE rol = ?', [rol])
+    const [rows] = await connection.query('SELECT * FROM usuario WHERE rol = ?', [rol])
     console.log('ROWS--> ', rows)
     connection.release()
     
@@ -32,10 +32,10 @@ app.get('/users', async (req, res) => {
 // Leer un usuario
 app.get('/users/:id', async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.query.id
     const connection = await pool.getConnection()
     const [rows] = await connection.query(
-      'SELECT * FROM usuarios WHERE id = ?',
+      'SELECT * FROM usuario WHERE id = ?',
       [id]
     )
     connection.release()
